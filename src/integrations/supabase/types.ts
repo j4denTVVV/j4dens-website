@@ -14,7 +14,479 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analytics_entries: {
+        Row: {
+          avg_viewers: number | null
+          comments: number
+          created_at: string
+          followers_end: number | null
+          followers_gained: number
+          followers_start: number | null
+          id: string
+          likes: number
+          period: string
+          period_end: string | null
+          period_start: string
+          platform: string
+          posts: number
+          shares: number
+          subs_gained: number | null
+          updated_at: string
+          user_id: string
+          views: number
+          watch_time: number | null
+        }
+        Insert: {
+          avg_viewers?: number | null
+          comments?: number
+          created_at?: string
+          followers_end?: number | null
+          followers_gained?: number
+          followers_start?: number | null
+          id?: string
+          likes?: number
+          period?: string
+          period_end?: string | null
+          period_start: string
+          platform: string
+          posts?: number
+          shares?: number
+          subs_gained?: number | null
+          updated_at?: string
+          user_id: string
+          views?: number
+          watch_time?: number | null
+        }
+        Update: {
+          avg_viewers?: number | null
+          comments?: number
+          created_at?: string
+          followers_end?: number | null
+          followers_gained?: number
+          followers_start?: number | null
+          id?: string
+          likes?: number
+          period?: string
+          period_end?: string | null
+          period_start?: string
+          platform?: string
+          posts?: number
+          shares?: number
+          subs_gained?: number | null
+          updated_at?: string
+          user_id?: string
+          views?: number
+          watch_time?: number | null
+        }
+        Relationships: []
+      }
+      goals: {
+        Row: {
+          category: string
+          completed: boolean
+          created_at: string
+          current_value: number
+          deadline: string | null
+          id: string
+          name: string
+          target_value: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          completed?: boolean
+          created_at?: string
+          current_value?: number
+          deadline?: string | null
+          id?: string
+          name: string
+          target_value?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          completed?: boolean
+          created_at?: string
+          current_value?: number
+          deadline?: string | null
+          id?: string
+          name?: string
+          target_value?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ideas: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          priority: string
+          status: string
+          tags: string[]
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          tags?: string[]
+          title: string
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          creator_name: string
+          default_platform: string
+          greeting_name: string
+          target_followers: number
+          target_shorts: number
+          target_streams: number
+          target_videos: number
+          timezone: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          creator_name?: string
+          default_platform?: string
+          greeting_name?: string
+          target_followers?: number
+          target_shorts?: number
+          target_streams?: number
+          target_videos?: number
+          timezone?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          creator_name?: string
+          default_platform?: string
+          greeting_name?: string
+          target_followers?: number
+          target_shorts?: number
+          target_streams?: number
+          target_videos?: number
+          timezone?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      stream_checklists: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          label: string
+          position: number
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          label: string
+          position?: number
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          label?: string
+          position?: number
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stream_checklists_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stream_segments: {
+        Row: {
+          created_at: string
+          id: string
+          length_mins: number | null
+          name: string
+          notes: string | null
+          position: number
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          length_mins?: number | null
+          name: string
+          notes?: string | null
+          position?: number
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          length_mins?: number | null
+          name?: string
+          notes?: string | null
+          position?: number
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stream_segments_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      streams: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          main_idea: string | null
+          notes: string | null
+          platform: string
+          status: string
+          stream_date: string | null
+          stream_time: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          main_idea?: string | null
+          notes?: string | null
+          platform?: string
+          status?: string
+          stream_date?: string | null
+          stream_time?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          main_idea?: string | null
+          notes?: string | null
+          platform?: string
+          status?: string
+          stream_date?: string | null
+          stream_time?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      youtube_checklists: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          label: string
+          position: number
+          user_id: string
+          video_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          label: string
+          position?: number
+          user_id: string
+          video_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          label?: string
+          position?: number
+          user_id?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "youtube_checklists_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "youtube_videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      youtube_sections: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          position: number
+          user_id: string
+          video_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          position?: number
+          user_id: string
+          video_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          position?: number
+          user_id?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "youtube_sections_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "youtube_videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      youtube_videos: {
+        Row: {
+          actual_record_date: string | null
+          actual_upload_date: string | null
+          category: string
+          comments: number | null
+          concept: string | null
+          created_at: string
+          final_title: string | null
+          hook: string | null
+          id: string
+          likes: number | null
+          notes: string | null
+          planned_record_date: string | null
+          planned_upload_date: string | null
+          priority: string
+          status: string
+          subs_gained: number | null
+          thumbnail_done: boolean
+          thumbnail_idea: string | null
+          updated_at: string
+          user_id: string
+          views_24h: number | null
+          views_30d: number | null
+          views_7d: number | null
+          working_title: string
+        }
+        Insert: {
+          actual_record_date?: string | null
+          actual_upload_date?: string | null
+          category?: string
+          comments?: number | null
+          concept?: string | null
+          created_at?: string
+          final_title?: string | null
+          hook?: string | null
+          id?: string
+          likes?: number | null
+          notes?: string | null
+          planned_record_date?: string | null
+          planned_upload_date?: string | null
+          priority?: string
+          status?: string
+          subs_gained?: number | null
+          thumbnail_done?: boolean
+          thumbnail_idea?: string | null
+          updated_at?: string
+          user_id: string
+          views_24h?: number | null
+          views_30d?: number | null
+          views_7d?: number | null
+          working_title: string
+        }
+        Update: {
+          actual_record_date?: string | null
+          actual_upload_date?: string | null
+          category?: string
+          comments?: number | null
+          concept?: string | null
+          created_at?: string
+          final_title?: string | null
+          hook?: string | null
+          id?: string
+          likes?: number | null
+          notes?: string | null
+          planned_record_date?: string | null
+          planned_upload_date?: string | null
+          priority?: string
+          status?: string
+          subs_gained?: number | null
+          thumbnail_done?: boolean
+          thumbnail_idea?: string | null
+          updated_at?: string
+          user_id?: string
+          views_24h?: number | null
+          views_30d?: number | null
+          views_7d?: number | null
+          working_title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
