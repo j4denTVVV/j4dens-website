@@ -16,7 +16,7 @@ const DEFAULTS: Milestone[] = [
   [40, "Any horror game with lights off"], [50, "Bring girl on stream"], [60, "Extreme Truth or Dare"],
   [70, "Punishment wheel"], [80, "Chat controls stream"], [90, "Public karaoke"], [100, "24 hour stream"],
   [125, "IRL challenge stream"], [150, "Stream in another city"], [175, "Costume stream"],
-  [200, "48 hour BIG 4TV event"], [250, "Throw an IRL Party"],
+  [200, "48 hour BIG 4TV stream"], [250, "Throw an IRL Party"],
 ].map(([subs, text]) => ({ subs: subs as number, text: text as string }));
 const MAJOR = new Set([100, 200, 250]);
 

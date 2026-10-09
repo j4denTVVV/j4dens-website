@@ -3,23 +3,23 @@ export const VIDEO_CATEGORIES = [
   "Reaction",
   "Challenge",
   "IRL",
+  "Collab",
   "Commentary",
-  "Storytime",
+  "Stream Video",
   "Other",
 ] as const;
 
 export const VIDEO_STATUSES = [
   "Idea",
   "Planning",
-  "Ready to Record",
-  "Recorded",
+  "Recording",
   "Editing",
-  "Thumbnail",
+  "Ready",
   "Scheduled",
   "Uploaded",
 ] as const;
 
-export const PRIORITIES = ["Low", "Normal", "High", "Must Make"] as const;
+export const PRIORITIES = ["Low", "Normal", "High", "Must Do"] as const;
 
 export const STREAM_PLATFORMS = ["Twitch", "YouTube", "TikTok", "Multi-stream"] as const;
 export const STREAM_CATEGORIES = [
@@ -33,35 +33,28 @@ export const STREAM_CATEGORIES = [
 ] as const;
 export const STREAM_STATUSES = ["Idea", "Planned", "Ready", "Live Completed", "Cancelled"] as const;
 
-export const IDEA_TYPES = [
-  "YouTube",
-  "Stream",
-  "TikTok / Short",
-  "Series",
-  "Challenge",
-  "Reaction",
-  "IRL",
-  "Other",
-] as const;
+export const IDEA_TYPES = ["Live", "YouTube", "Challenge", "IRL", "Collab", "Short", "Other"] as const;
 export const IDEA_STATUSES = ["Unused", "Considering", "Planned", "Used"] as const;
 
-export const ANALYTICS_PLATFORMS = ["YouTube", "TikTok", "Instagram", "Twitch", "Facebook"] as const;
+export const ANALYTICS_PLATFORMS = ["Twitch", "YouTube", "TikTok", "Instagram", "Facebook"] as const;
 export const GOAL_CATEGORIES = [
+  "Twitch",
   "YouTube",
-  "Streaming",
   "TikTok",
   "Instagram",
-  "Community",
-  "General",
+  "Streams",
+  "YouTube uploads",
+  "Short-form posts",
+  "Collabs",
+  "Marathons",
+  "Custom",
 ] as const;
 
 const CHIP: Record<string, string> = {
   Idea: "chip-grey",
   Planning: "chip-violet",
-  "Ready to Record": "chip-blue",
-  Recorded: "chip-cyan",
+  Recording: "chip-blue",
   Editing: "chip-amber",
-  Thumbnail: "chip-amber",
   Scheduled: "chip-pink",
   Uploaded: "chip-green",
   Planned: "chip-violet",
@@ -74,7 +67,7 @@ const CHIP: Record<string, string> = {
   Low: "chip-grey",
   Normal: "chip-blue",
   High: "chip-amber",
-  "Must Make": "chip-red",
+  "Must Do": "chip-red",
 };
 
 export function chipClass(value: string | null | undefined) {
