@@ -10,33 +10,302 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as HqRouteImport } from './routes/hq'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedAssetsRouteImport } from './routes/_authenticated/assets'
+import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
+import { Route as AuthenticatedChallengesRouteImport } from './routes/_authenticated/challenges'
+import { Route as AuthenticatedCollabsRouteImport } from './routes/_authenticated/collabs'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
+import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
+import { Route as AuthenticatedIdeasRouteImport } from './routes/_authenticated/ideas'
+import { Route as AuthenticatedIrlRouteImport } from './routes/_authenticated/irl'
+import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated/live'
+import { Route as AuthenticatedMarathonsRouteImport } from './routes/_authenticated/marathons'
+import { Route as AuthenticatedOverlaysRouteImport } from './routes/_authenticated/overlays'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSubathonsRouteImport } from './routes/_authenticated/subathons'
+import { Route as AuthenticatedToolsRouteImport } from './routes/_authenticated/tools'
+import { Route as AuthenticatedStreamsIndexRouteImport } from './routes/_authenticated/streams.index'
+import { Route as AuthenticatedStreamsStreamIdRouteImport } from './routes/_authenticated/streams.$streamId'
+import { Route as AuthenticatedYoutubeIndexRouteImport } from './routes/_authenticated/youtube.index'
+import { Route as AuthenticatedYoutubeVideoIdRouteImport } from './routes/_authenticated/youtube.$videoId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HqRoute = HqRouteImport.update({
+  id: '/hq',
+  path: '/hq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAssetsRoute = AuthenticatedAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChallengesRoute = AuthenticatedChallengesRouteImport.update({
+  id: '/challenges',
+  path: '/challenges',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCollabsRoute = AuthenticatedCollabsRouteImport.update({
+  id: '/collabs',
+  path: '/collabs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
+  id: '/equipment',
+  path: '/equipment',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGoalsRoute = AuthenticatedGoalsRouteImport.update({
+  id: '/goals',
+  path: '/goals',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIdeasRoute = AuthenticatedIdeasRouteImport.update({
+  id: '/ideas',
+  path: '/ideas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIrlRoute = AuthenticatedIrlRouteImport.update({
+  id: '/irl',
+  path: '/irl',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLiveRoute = AuthenticatedLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMarathonsRoute = AuthenticatedMarathonsRouteImport.update({
+  id: '/marathons',
+  path: '/marathons',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOverlaysRoute = AuthenticatedOverlaysRouteImport.update({
+  id: '/overlays',
+  path: '/overlays',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSubathonsRoute = AuthenticatedSubathonsRouteImport.update({
+  id: '/subathons',
+  path: '/subathons',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedToolsRoute = AuthenticatedToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStreamsIndexRoute =
+  AuthenticatedStreamsIndexRouteImport.update({
+    id: '/streams/',
+    path: '/streams/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStreamsStreamIdRoute =
+  AuthenticatedStreamsStreamIdRouteImport.update({
+    id: '/streams/$streamId',
+    path: '/streams/$streamId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedYoutubeIndexRoute =
+  AuthenticatedYoutubeIndexRouteImport.update({
+    id: '/youtube/',
+    path: '/youtube/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedYoutubeVideoIdRoute =
+  AuthenticatedYoutubeVideoIdRouteImport.update({
+    id: '/youtube/$videoId',
+    path: '/youtube/$videoId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hq': typeof HqRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/assets': typeof AuthenticatedAssetsRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
+  '/challenges': typeof AuthenticatedChallengesRoute
+  '/collabs': typeof AuthenticatedCollabsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
+  '/goals': typeof AuthenticatedGoalsRoute
+  '/ideas': typeof AuthenticatedIdeasRoute
+  '/irl': typeof AuthenticatedIrlRoute
+  '/live': typeof AuthenticatedLiveRoute
+  '/marathons': typeof AuthenticatedMarathonsRoute
+  '/overlays': typeof AuthenticatedOverlaysRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/subathons': typeof AuthenticatedSubathonsRoute
+  '/tools': typeof AuthenticatedToolsRoute
+  '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
+  '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/streams/': typeof AuthenticatedStreamsIndexRoute
+  '/youtube/': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hq': typeof HqRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/assets': typeof AuthenticatedAssetsRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
+  '/challenges': typeof AuthenticatedChallengesRoute
+  '/collabs': typeof AuthenticatedCollabsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
+  '/goals': typeof AuthenticatedGoalsRoute
+  '/ideas': typeof AuthenticatedIdeasRoute
+  '/irl': typeof AuthenticatedIrlRoute
+  '/live': typeof AuthenticatedLiveRoute
+  '/marathons': typeof AuthenticatedMarathonsRoute
+  '/overlays': typeof AuthenticatedOverlaysRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/subathons': typeof AuthenticatedSubathonsRoute
+  '/tools': typeof AuthenticatedToolsRoute
+  '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
+  '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/streams': typeof AuthenticatedStreamsIndexRoute
+  '/youtube': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/hq': typeof HqRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/assets': typeof AuthenticatedAssetsRoute
+  '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
+  '/_authenticated/challenges': typeof AuthenticatedChallengesRoute
+  '/_authenticated/collabs': typeof AuthenticatedCollabsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
+  '/_authenticated/goals': typeof AuthenticatedGoalsRoute
+  '/_authenticated/ideas': typeof AuthenticatedIdeasRoute
+  '/_authenticated/irl': typeof AuthenticatedIrlRoute
+  '/_authenticated/live': typeof AuthenticatedLiveRoute
+  '/_authenticated/marathons': typeof AuthenticatedMarathonsRoute
+  '/_authenticated/overlays': typeof AuthenticatedOverlaysRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/subathons': typeof AuthenticatedSubathonsRoute
+  '/_authenticated/tools': typeof AuthenticatedToolsRoute
+  '/_authenticated/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
+  '/_authenticated/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/_authenticated/streams/': typeof AuthenticatedStreamsIndexRoute
+  '/_authenticated/youtube/': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/hq'
+    | '/analytics'
+    | '/assets'
+    | '/calendar'
+    | '/challenges'
+    | '/collabs'
+    | '/dashboard'
+    | '/equipment'
+    | '/goals'
+    | '/ideas'
+    | '/irl'
+    | '/live'
+    | '/marathons'
+    | '/overlays'
+    | '/settings'
+    | '/subathons'
+    | '/tools'
+    | '/streams/$streamId'
+    | '/youtube/$videoId'
+    | '/streams/'
+    | '/youtube/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/hq'
+    | '/analytics'
+    | '/assets'
+    | '/calendar'
+    | '/challenges'
+    | '/collabs'
+    | '/dashboard'
+    | '/equipment'
+    | '/goals'
+    | '/ideas'
+    | '/irl'
+    | '/live'
+    | '/marathons'
+    | '/overlays'
+    | '/settings'
+    | '/subathons'
+    | '/tools'
+    | '/streams/$streamId'
+    | '/youtube/$videoId'
+    | '/streams'
+    | '/youtube'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/hq'
+    | '/_authenticated/analytics'
+    | '/_authenticated/assets'
+    | '/_authenticated/calendar'
+    | '/_authenticated/challenges'
+    | '/_authenticated/collabs'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/equipment'
+    | '/_authenticated/goals'
+    | '/_authenticated/ideas'
+    | '/_authenticated/irl'
+    | '/_authenticated/live'
+    | '/_authenticated/marathons'
+    | '/_authenticated/overlays'
+    | '/_authenticated/settings'
+    | '/_authenticated/subathons'
+    | '/_authenticated/tools'
+    | '/_authenticated/streams/$streamId'
+    | '/_authenticated/youtube/$videoId'
+    | '/_authenticated/streams/'
+    | '/_authenticated/youtube/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  HqRoute: typeof HqRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +317,216 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hq': {
+      id: '/hq'
+      path: '/hq'
+      fullPath: '/hq'
+      preLoaderRoute: typeof HqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/assets': {
+      id: '/_authenticated/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof AuthenticatedAssetsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/calendar': {
+      id: '/_authenticated/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AuthenticatedCalendarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/challenges': {
+      id: '/_authenticated/challenges'
+      path: '/challenges'
+      fullPath: '/challenges'
+      preLoaderRoute: typeof AuthenticatedChallengesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/collabs': {
+      id: '/_authenticated/collabs'
+      path: '/collabs'
+      fullPath: '/collabs'
+      preLoaderRoute: typeof AuthenticatedCollabsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/equipment': {
+      id: '/_authenticated/equipment'
+      path: '/equipment'
+      fullPath: '/equipment'
+      preLoaderRoute: typeof AuthenticatedEquipmentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/goals': {
+      id: '/_authenticated/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof AuthenticatedGoalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ideas': {
+      id: '/_authenticated/ideas'
+      path: '/ideas'
+      fullPath: '/ideas'
+      preLoaderRoute: typeof AuthenticatedIdeasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/irl': {
+      id: '/_authenticated/irl'
+      path: '/irl'
+      fullPath: '/irl'
+      preLoaderRoute: typeof AuthenticatedIrlRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/live': {
+      id: '/_authenticated/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof AuthenticatedLiveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/marathons': {
+      id: '/_authenticated/marathons'
+      path: '/marathons'
+      fullPath: '/marathons'
+      preLoaderRoute: typeof AuthenticatedMarathonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/overlays': {
+      id: '/_authenticated/overlays'
+      path: '/overlays'
+      fullPath: '/overlays'
+      preLoaderRoute: typeof AuthenticatedOverlaysRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/subathons': {
+      id: '/_authenticated/subathons'
+      path: '/subathons'
+      fullPath: '/subathons'
+      preLoaderRoute: typeof AuthenticatedSubathonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tools': {
+      id: '/_authenticated/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof AuthenticatedToolsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/streams/': {
+      id: '/_authenticated/streams/'
+      path: '/streams'
+      fullPath: '/streams/'
+      preLoaderRoute: typeof AuthenticatedStreamsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/streams/$streamId': {
+      id: '/_authenticated/streams/$streamId'
+      path: '/streams/$streamId'
+      fullPath: '/streams/$streamId'
+      preLoaderRoute: typeof AuthenticatedStreamsStreamIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/youtube/': {
+      id: '/_authenticated/youtube/'
+      path: '/youtube'
+      fullPath: '/youtube/'
+      preLoaderRoute: typeof AuthenticatedYoutubeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/youtube/$videoId': {
+      id: '/_authenticated/youtube/$videoId'
+      path: '/youtube/$videoId'
+      fullPath: '/youtube/$videoId'
+      preLoaderRoute: typeof AuthenticatedYoutubeVideoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAssetsRoute: typeof AuthenticatedAssetsRoute
+  AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
+  AuthenticatedChallengesRoute: typeof AuthenticatedChallengesRoute
+  AuthenticatedCollabsRoute: typeof AuthenticatedCollabsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
+  AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
+  AuthenticatedIdeasRoute: typeof AuthenticatedIdeasRoute
+  AuthenticatedIrlRoute: typeof AuthenticatedIrlRoute
+  AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
+  AuthenticatedMarathonsRoute: typeof AuthenticatedMarathonsRoute
+  AuthenticatedOverlaysRoute: typeof AuthenticatedOverlaysRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSubathonsRoute: typeof AuthenticatedSubathonsRoute
+  AuthenticatedToolsRoute: typeof AuthenticatedToolsRoute
+  AuthenticatedStreamsStreamIdRoute: typeof AuthenticatedStreamsStreamIdRoute
+  AuthenticatedYoutubeVideoIdRoute: typeof AuthenticatedYoutubeVideoIdRoute
+  AuthenticatedStreamsIndexRoute: typeof AuthenticatedStreamsIndexRoute
+  AuthenticatedYoutubeIndexRoute: typeof AuthenticatedYoutubeIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAssetsRoute: AuthenticatedAssetsRoute,
+  AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
+  AuthenticatedChallengesRoute: AuthenticatedChallengesRoute,
+  AuthenticatedCollabsRoute: AuthenticatedCollabsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
+  AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
+  AuthenticatedIdeasRoute: AuthenticatedIdeasRoute,
+  AuthenticatedIrlRoute: AuthenticatedIrlRoute,
+  AuthenticatedLiveRoute: AuthenticatedLiveRoute,
+  AuthenticatedMarathonsRoute: AuthenticatedMarathonsRoute,
+  AuthenticatedOverlaysRoute: AuthenticatedOverlaysRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSubathonsRoute: AuthenticatedSubathonsRoute,
+  AuthenticatedToolsRoute: AuthenticatedToolsRoute,
+  AuthenticatedStreamsStreamIdRoute: AuthenticatedStreamsStreamIdRoute,
+  AuthenticatedYoutubeVideoIdRoute: AuthenticatedYoutubeVideoIdRoute,
+  AuthenticatedStreamsIndexRoute: AuthenticatedStreamsIndexRoute,
+  AuthenticatedYoutubeIndexRoute: AuthenticatedYoutubeIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  HqRoute: HqRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
