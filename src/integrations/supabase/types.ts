@@ -119,6 +119,60 @@ export type Database = {
         }
         Relationships: []
       }
+      hub_items: {
+        Row: {
+          checklist: Json
+          created_at: string
+          end_date: string | null
+          goal: string | null
+          id: string
+          kind: string
+          location: string | null
+          notes: string | null
+          partner: string | null
+          platform: string | null
+          start_date: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          checklist?: Json
+          created_at?: string
+          end_date?: string | null
+          goal?: string | null
+          id?: string
+          kind: string
+          location?: string | null
+          notes?: string | null
+          partner?: string | null
+          platform?: string | null
+          start_date?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          checklist?: Json
+          created_at?: string
+          end_date?: string | null
+          goal?: string | null
+          id?: string
+          kind?: string
+          location?: string | null
+          notes?: string | null
+          partner?: string | null
+          platform?: string | null
+          start_date?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ideas: {
         Row: {
           created_at: string
