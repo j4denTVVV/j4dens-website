@@ -80,6 +80,110 @@ export type Database = {
         }
         Relationships: []
       }
+      collabs: {
+        Row: {
+          activity: string | null
+          collab_date: string | null
+          collab_time: string | null
+          collab_type: string | null
+          created_at: string
+          creator_id: string | null
+          duration: string | null
+          id: string
+          notes: string | null
+          opportunities: string | null
+          plan: string | null
+          platform: string | null
+          segments: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity?: string | null
+          collab_date?: string | null
+          collab_time?: string | null
+          collab_type?: string | null
+          created_at?: string
+          creator_id?: string | null
+          duration?: string | null
+          id?: string
+          notes?: string | null
+          opportunities?: string | null
+          plan?: string | null
+          platform?: string | null
+          segments?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          activity?: string | null
+          collab_date?: string | null
+          collab_time?: string | null
+          collab_type?: string | null
+          created_at?: string
+          creator_id?: string | null
+          duration?: string | null
+          id?: string
+          notes?: string | null
+          opportunities?: string | null
+          plan?: string | null
+          platform?: string | null
+          segments?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collabs_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creators"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creators: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+          notes: string | null
+          profiles: Json
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          notes?: string | null
+          profiles?: Json
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          notes?: string | null
+          profiles?: Json
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           category: string
@@ -123,6 +227,7 @@ export type Database = {
         Row: {
           checklist: Json
           created_at: string
+          details: Json
           end_date: string | null
           goal: string | null
           id: string
@@ -132,6 +237,7 @@ export type Database = {
           partner: string | null
           platform: string | null
           start_date: string | null
+          start_time: string | null
           status: string
           title: string
           updated_at: string
@@ -140,6 +246,7 @@ export type Database = {
         Insert: {
           checklist?: Json
           created_at?: string
+          details?: Json
           end_date?: string | null
           goal?: string | null
           id?: string
@@ -149,6 +256,7 @@ export type Database = {
           partner?: string | null
           platform?: string | null
           start_date?: string | null
+          start_time?: string | null
           status?: string
           title: string
           updated_at?: string
@@ -157,6 +265,7 @@ export type Database = {
         Update: {
           checklist?: Json
           created_at?: string
+          details?: Json
           end_date?: string | null
           goal?: string | null
           id?: string
@@ -166,6 +275,7 @@ export type Database = {
           partner?: string | null
           platform?: string | null
           start_date?: string | null
+          start_time?: string | null
           status?: string
           title?: string
           updated_at?: string
