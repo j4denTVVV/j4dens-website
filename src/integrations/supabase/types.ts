@@ -94,6 +94,7 @@ export type Database = {
           opportunities: string | null
           plan: string | null
           platform: string | null
+          platforms: string[]
           segments: string | null
           status: string
           title: string
@@ -113,6 +114,7 @@ export type Database = {
           opportunities?: string | null
           plan?: string | null
           platform?: string | null
+          platforms?: string[]
           segments?: string | null
           status?: string
           title: string
@@ -132,6 +134,7 @@ export type Database = {
           opportunities?: string | null
           plan?: string | null
           platform?: string | null
+          platforms?: string[]
           segments?: string | null
           status?: string
           title?: string
@@ -236,6 +239,7 @@ export type Database = {
           notes: string | null
           partner: string | null
           platform: string | null
+          platforms: string[]
           start_date: string | null
           start_time: string | null
           status: string
@@ -255,6 +259,7 @@ export type Database = {
           notes?: string | null
           partner?: string | null
           platform?: string | null
+          platforms?: string[]
           start_date?: string | null
           start_time?: string | null
           status?: string
@@ -274,6 +279,7 @@ export type Database = {
           notes?: string | null
           partner?: string | null
           platform?: string | null
+          platforms?: string[]
           start_date?: string | null
           start_time?: string | null
           status?: string
@@ -324,11 +330,14 @@ export type Database = {
       }
       settings: {
         Row: {
+          appearance: Json
           avatar_url: string | null
+          bio: string | null
           created_at: string
           creator_name: string
           default_platform: string
           greeting_name: string
+          preferences: Json
           socials: Json
           target_followers: number
           target_shorts: number
@@ -339,11 +348,14 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          appearance?: Json
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           creator_name?: string
           default_platform?: string
           greeting_name?: string
+          preferences?: Json
           socials?: Json
           target_followers?: number
           target_shorts?: number
@@ -354,11 +366,14 @@ export type Database = {
           user_id: string
         }
         Update: {
+          appearance?: Json
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           creator_name?: string
           default_platform?: string
           greeting_name?: string
+          preferences?: Json
           socials?: Json
           target_followers?: number
           target_shorts?: number
@@ -366,6 +381,45 @@ export type Database = {
           target_videos?: number
           timezone?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      setup_items: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          price: number | null
+          section: string
+          updated_at: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          price?: number | null
+          section?: string
+          updated_at?: string
+          url?: string | null
+          user_id?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          price?: number | null
+          section?: string
+          updated_at?: string
+          url?: string | null
           user_id?: string
         }
         Relationships: []
@@ -453,10 +507,12 @@ export type Database = {
         Row: {
           category: string
           created_at: string
+          details: Json
           id: string
           main_idea: string | null
           notes: string | null
           platform: string
+          platforms: string[]
           status: string
           stream_date: string | null
           stream_time: string | null
@@ -467,10 +523,12 @@ export type Database = {
         Insert: {
           category?: string
           created_at?: string
+          details?: Json
           id?: string
           main_idea?: string | null
           notes?: string | null
           platform?: string
+          platforms?: string[]
           status?: string
           stream_date?: string | null
           stream_time?: string | null
@@ -481,10 +539,12 @@ export type Database = {
         Update: {
           category?: string
           created_at?: string
+          details?: Json
           id?: string
           main_idea?: string | null
           notes?: string | null
           platform?: string
+          platforms?: string[]
           status?: string
           stream_date?: string | null
           stream_time?: string | null
