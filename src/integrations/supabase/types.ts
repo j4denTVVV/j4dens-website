@@ -165,6 +165,7 @@ export type Database = {
           creator_name: string
           default_platform: string
           greeting_name: string
+          socials: Json
           target_followers: number
           target_shorts: number
           target_streams: number
@@ -179,6 +180,7 @@ export type Database = {
           creator_name?: string
           default_platform?: string
           greeting_name?: string
+          socials?: Json
           target_followers?: number
           target_shorts?: number
           target_streams?: number
@@ -193,6 +195,7 @@ export type Database = {
           creator_name?: string
           default_platform?: string
           greeting_name?: string
+          socials?: Json
           target_followers?: number
           target_shorts?: number
           target_streams?: number
