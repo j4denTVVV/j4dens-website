@@ -1,6 +1,7 @@
 # J4denTV HQ roadmap
 
 - [ ] Collabs: live creator search with platform, profile photo and username
+- [ ] Show current follower analytics immediately from connected Twitch, YouTube, TikTok and Instagram accounts
 - [ ] Analytics: logo tabs, time filters, real-only metrics, Metricool + StreamCharts, 3 charts, hints
 - [ ] Goals: Road to 1K, sub goals, other goals (add/edit/delete)
 - [ ] YouTube: board/calendar/list, new types + statuses, quick create

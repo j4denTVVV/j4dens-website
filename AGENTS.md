@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep workspace platform API calls in authenticated `src/lib/platforms.functions.ts` server functions; this prevents account credentials entering browser code.

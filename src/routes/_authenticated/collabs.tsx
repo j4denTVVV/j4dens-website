@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CreatorSearch } from "@/components/hub/CreatorSearch";
 
 export const Route = createFileRoute("/_authenticated/collabs")({
   head: () => ({
@@ -100,12 +101,12 @@ function CollabsPage() {
       )}
 
       {finding ? (
-        <FindCreator creators={creators} onClose={() => setFinding(false)}
+        <CreatorSearch creators={creators} onClose={() => setFinding(false)}
           onSelect={(cr) => { setFinding(false); setEditing({ creator_id: cr.id, status: "Idea", platforms: [], title: `Collab with ${cr.display_name}` }); }} />
       ) : null}
       {editing ? (
         <CollabDialog value={editing} creators={creators} onClose={() => setEditing(null)}
-          onDelete={editing.id ? () => { remove.mutate(editing.id!); setEditing(null); } : undefined} />
+          onDelete={editing.id ? () => { if (!editing.id) return; remove.mutate(editing.id); setEditing(null); } : undefined} />
       ) : null}
     </div>
   );

@@ -14,6 +14,9 @@ import { PageHeader } from "@/components/hub/common";
 import { AnalyticsDialog } from "@/components/hub/dialogs";
 import { PlatformLogo } from "@/components/hub/platforms";
 import { Button } from "@/components/ui/button";
+import { useServerFn } from "@tanstack/react-start";
+import { getConnectedStats } from "@/lib/platforms.functions";
+import { RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/analytics")({
   head: () => ({
@@ -115,6 +118,8 @@ function AnalyticsPage() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("All");
   const [range, setRange] = useState<RangeKey>("30d");
+  const getStats = useServerFn(getConnectedStats);
+  const { data: accounts = [], isFetching: syncing, refetch: refreshStats } = useQuery({ queryKey: ["connected-platform-stats"], queryFn: () => getStats(), staleTime: 30000, refetchInterval: 60000, retry: false });
   const { data: rows = [] } = useQuery({
     queryKey: ["analytics_entries"],
     queryFn: () => fetchAll<Entry>("analytics_entries", { orderBy: "period_start", ascending: true }),
@@ -150,7 +155,7 @@ function AnalyticsPage() {
     if (thisWeek || lastWeek) out.push(`You streamed ${thisWeek} time${thisWeek === 1 ? "" : "s"} this week compared with ${lastWeek} last week.`);
     const tw = rows.filter((r) => r.platform === "Twitch" && r.avg_viewers != null).sort((a, b) => a.period_start.localeCompare(b.period_start));
     if (tw.length >= 2) {
-      const ch = pctChange(tw.at(-1)!.avg_viewers, tw.at(-2)!.avg_viewers);
+      const ch = pctChange(tw.at(-1)?.avg_viewers, tw.at(-2)?.avg_viewers);
       if (ch != null) out.push(`Twitch average viewers ${ch >= 0 ? "increased" : "dropped"} ${Math.abs(ch)}% since your last entry.`);
     }
     const m = new Date().toISOString().slice(0, 7);
@@ -176,6 +181,14 @@ function AnalyticsPage() {
         subtitle="See how J4denTV is performing."
         action={<Button variant="outline" onClick={() => setOpen(true)}><Plus /> LOG NUMBERS</Button>}
       />
+
+      <section className="space-y-4">
+        <div className="flex items-center justify-between gap-3"><h2 className="section-title text-3xl">Connected accounts</h2><Button variant="outline" size="icon" aria-label="Refresh account analytics" title="Refresh account analytics" disabled={syncing} onClick={() => refreshStats()}><RefreshCw className={`size-4 ${syncing ? "animate-spin" : ""}`} /></Button></div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{["Twitch", "YouTube", "TikTok", "Instagram"].map((p) => {
+          const a = accounts.find((account) => account.platform === p);
+          return <div key={p} className="card-secondary p-5"><div className="flex items-center gap-3">{a?.avatar ? <img src={a.avatar} alt="" className="size-10 rounded-full object-cover" /> : <PlatformLogo p={p} size={24} />}<div className="min-w-0"><p className="font-semibold">{p}</p><p className="truncate text-xs text-muted-foreground">{a?.username ? `@${a.username}` : "Not connected"}</p></div></div><p className="eyebrow mt-5">{p === "YouTube" ? "Subscribers" : "Followers"}</p><p className={a?.followers != null ? "section-title mt-2 text-4xl" : "mt-3 text-xs text-muted-foreground"}>{a?.followers != null ? formatNumber(a.followers) : syncing ? "Loading…" : NA}</p><p className="mt-3 text-xs text-muted-foreground">{a?.status === "connected" ? "Live account total" : a?.status === "error" ? "Connection needs attention" : "Setup required"}</p>{a?.error ? <p className="mt-2 break-words text-xs text-destructive" role="alert">{a.error}</p> : null}</div>;
+        })}</div>
+      </section>
 
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2" role="tablist" aria-label="Platform">
@@ -205,7 +218,7 @@ function AnalyticsPage() {
           <section>
             <h2 className="section-title mb-4 flex items-center gap-3 text-3xl"><PlatformLogo p={tab} size={22} /> {tab.toUpperCase()} INSIGHTS</h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {PLATFORM_METRICS[tab].map(([l, fn]) => <Metric key={l} label={l} value={fn(list)} />)}
+              {PLATFORM_METRICS[tab].map(([l, fn]) => <Metric key={l} label={l} value={l === "Followers" || l === "Subscribers" ? accounts.find((a) => a.platform === tab)?.followers ?? fn(list) : fn(list)} />)}
             </div>
           </section>
         ) : null}
@@ -241,7 +254,7 @@ function AnalyticsPage() {
         </section>
       </div>
       <p className="text-xs text-muted-foreground">
-        Numbers come from what you log here (since {rangeStart(range).toLocaleDateString("en-GB")}). Platform accounts aren't connected yet, so nothing syncs automatically.
+        Connected account totals are current. Historical charts use your logged numbers since {rangeStart(range).toLocaleDateString("en-GB")}.
       </p>
       {open ? <AnalyticsDialog open onOpenChange={() => setOpen(false)} /> : null}
     </div>
