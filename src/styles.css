@@ -105,7 +105,17 @@
   --shine: linear-gradient(115deg, transparent 35%, oklch(1 0 0 / 0.09) 50%, transparent 65%);
   --text-shine: linear-gradient(100deg, oklch(0.72 0 0) 0%, oklch(1 0 0) 40%, oklch(0.78 0.005 250) 62%, oklch(1 0 0) 100%);
   --gloss: linear-gradient(180deg, oklch(1 0 0 / 0.07), transparent 40%);
+  --selection-glow: 0 0 20px -10px oklch(0.97 0.003 90 / 0.38);
 }
+
+.visual-choice { position: relative; overflow: hidden; letter-spacing: 0; }
+.visual-choice[aria-pressed="true"] { border-color: var(--foreground); background: var(--accent); color: var(--foreground); box-shadow: var(--selection-glow); transform: translateY(-1px); }
+.visual-choice .choice-check { color: var(--foreground); width: 12px; height: 12px; }
+.hq-form { gap: 1.5rem; }
+.hq-form label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0; color: var(--muted-foreground); }
+.hq-form input, .hq-form textarea { border-radius: 3px; background: var(--surface); }
+.hq-form input { min-height: 44px; }
+.hq-form [data-slot="dialog-footer"] { border-top: 1px solid var(--border); padding-top: 1.25rem; }
 
 @utility chip-base {
   display: inline-flex;
