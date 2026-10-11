@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlatformSelector, StatusSelector, ContentTypeSelector, MoreOptions, FormAction } from "@/components/hub/visual-selectors";
 import { PageHeader, EmptyState, Field } from "@/components/hub/common";
 import { deleteRow, fetchAll, insertRow, updateRow } from "@/lib/api";
 import { chipClass, shortDate } from "@/lib/hub";
@@ -23,6 +23,7 @@ export type HubItem = {
   start_date: string | null;
   end_date: string | null;
   platform: string | null;
+  platforms?: string[];
   partner: string | null;
   location: string | null;
   goal: string | null;
@@ -41,6 +42,8 @@ export const DETAIL_FIELDS: Partial<Record<HubKind, Array<{ key: string; label: 
     { key: "goals", label: "Goals", long: true },
     { key: "milestones", label: "Milestones", long: true },
     { key: "segments", label: "Segments", long: true },
+    { key: "challenges", label: "Challenges", long: true },
+    { key: "breaks", label: "Breaks", long: true },
   ],
   marathon: [
     { key: "duration", label: "Duration" },
@@ -54,10 +57,14 @@ export const DETAIL_FIELDS: Partial<Record<HubKind, Array<{ key: string; label: 
   challenge: [
     { key: "game", label: "Game / activity" },
     { key: "reward", label: "Reward or punishment" },
+    { key: "punishment", label: "Punishment" },
   ],
   irl: [
     { key: "route", label: "Route / plan", long: true },
     { key: "safety", label: "Safety & permissions" },
+    { key: "equipment", label: "Equipment" },
+    { key: "guests", label: "Guests" },
+    { key: "segments", label: "Segments", long: true },
   ],
 };
 
@@ -222,55 +229,20 @@ export function ItemDialog({
           <Field label="Title">
             <Input value={form.title} onChange={(e) => set("title", e.target.value)} autoFocus />
           </Field>
-          <Field label="Status">
-            <Select value={form.status} onValueChange={(v) => set("status", v)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {cfg.statuses.map((s) => (
-                  <SelectItem key={s} value={s}>{s}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
-          {cfg.fields.includes("dates") ? (
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Start">
-                <Input type="date" value={form.start_date ?? ""} onChange={(e) => set("start_date", e.target.value || null)} />
-              </Field>
-              <Field label="End">
-                <Input type="date" value={form.end_date ?? ""} onChange={(e) => set("end_date", e.target.value || null)} />
-              </Field>
-            </div>
-          ) : null}
-          {cfg.fields.includes("dates") && value.kind !== "collab" ? (
-            <Field label="Start time">
-              <Input type="time" value={form.start_time ?? ""} onChange={(e) => set("start_time", e.target.value || null)} />
-            </Field>
-          ) : null}
-          {(DETAIL_FIELDS[value.kind] ?? []).map((f) => (
-            <Field key={f.key} label={f.label}>
-              {f.long ? (
-                <Textarea rows={2} value={form.details?.[f.key] ?? ""} onChange={(e) => set("details", { ...(form.details ?? {}), [f.key]: e.target.value })} />
-              ) : (
-                <Input value={form.details?.[f.key] ?? ""} onChange={(e) => set("details", { ...(form.details ?? {}), [f.key]: e.target.value })} />
-              )}
-            </Field>
-          ))}
-          {cfg.fields.includes("platform") ? (
-            <Field label="Platform">
-              <Input value={form.platform ?? ""} onChange={(e) => set("platform", e.target.value || null)} placeholder="Twitch, YouTube, TikTok…" />
-            </Field>
-          ) : null}
-          {(["partner", "location", "goal"] as const).map((k) =>
-            cfg.fields.includes(k) ? (
-              <Field key={k} label={cfg.labels?.[k] ?? k}>
-                <Input value={form[k] ?? ""} onChange={(e) => set(k, e.target.value || null)} />
-              </Field>
-            ) : null,
-          )}
-          <Field label="Notes">
-            <Textarea rows={4} value={form.notes ?? ""} onChange={(e) => set("notes", e.target.value || null)} />
-          </Field>
+          {cfg.fields.includes("dates") && <div className="grid grid-cols-2 gap-3">
+            <Field label="Date"><Input type="date" value={form.start_date ?? ""} onChange={e => set("start_date", e.target.value || null)} /></Field>
+            <Field label="Start time"><Input type="time" value={form.start_time ?? ""} onChange={e => set("start_time", e.target.value || null)} /></Field>
+          </div>}
+          {cfg.fields.includes("platform") && <Field label="Platforms"><PlatformSelector value={form.platforms?.length ? form.platforms : (form.platform ?? "").split(/,\s*/).filter(Boolean)} onChange={v => { set("platforms", v); set("platform", v.join(", ") || null); }} /></Field>}
+          {(DETAIL_FIELDS[value.kind] ?? []).filter(f => ["duration", "start_duration", "max_duration", "game"].includes(f.key)).map(f => <Field key={f.key} label={f.label}><Input value={form.details?.[f.key] ?? ""} onChange={e => set("details", { ...form.details, [f.key]: e.target.value })} /></Field>)}
+          {value.kind === "irl" && <Field label="Type"><ContentTypeSelector value={form.details?.["type"] ?? "City"} options={["City", "Challenge", "Event", "Collab", "Other"]} onChange={v => set("details", { ...form.details, type: v })} /></Field>}
+          {cfg.fields.includes("location") && <Field label="Location"><Input value={form.location ?? ""} onChange={e => set("location", e.target.value || null)} /></Field>}
+          <MoreOptions>
+          <Field label="Status"><StatusSelector value={form.status} onChange={v => set("status", v)} options={cfg.statuses} /></Field>
+          {cfg.fields.includes("dates") && <Field label="End date"><Input type="date" value={form.end_date ?? ""} onChange={e => set("end_date", e.target.value || null)} /></Field>}
+          {(DETAIL_FIELDS[value.kind] ?? []).filter(f => !["duration", "start_duration", "max_duration", "game"].includes(f.key)).map(f => <Field key={f.key} label={f.label}>{f.long ? <Textarea rows={2} value={form.details?.[f.key] ?? ""} onChange={e => set("details", { ...form.details, [f.key]: e.target.value })} /> : <Input value={form.details?.[f.key] ?? ""} onChange={e => set("details", { ...form.details, [f.key]: e.target.value })} />}</Field>)}
+          {(["partner", "goal"] as const).map(k => cfg.fields.includes(k) && <Field key={k} label={cfg.labels?.[k] ?? k}><Input value={form[k] ?? ""} onChange={e => set(k, e.target.value || null)} /></Field>)}
+          <Field label="Notes"><Textarea rows={3} value={form.notes ?? ""} onChange={e => set("notes", e.target.value || null)} /></Field>
           <div>
             <p className="mb-2 text-sm font-medium">Checklist</p>
             <div className="space-y-2">
@@ -302,6 +274,7 @@ export function ItemDialog({
               </form>
             </div>
           </div>
+          </MoreOptions>
         </div>
         <DialogFooter className="gap-2 sm:justify-between">
           {form.id ? (
@@ -309,9 +282,9 @@ export function ItemDialog({
               <Trash2 className="size-4" /> Delete
             </Button>
           ) : <span />}
-          <Button disabled={!form.title.trim() || save.isPending} onClick={() => save.mutate()}>
-            Save
-          </Button>
+          <FormAction disabled={!form.title.trim() || save.isPending} onClick={() => save.mutate()}>
+            {form.id ? "Save" : "Create"} {cfg.singular}
+          </FormAction>
         </DialogFooter>
       </DialogContent>
     </Dialog>

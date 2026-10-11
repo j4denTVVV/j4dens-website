@@ -1,5 +1,7 @@
 # J4denTV HQ roadmap
 
+- [ ] Global visual form redesign: shared selectors, all HQ create/edit forms, settings, verification; preserve data/features/public page
+
 - [ ] Collabs: live creator search with platform, profile photo and username
 - [ ] Show current follower analytics immediately from connected Twitch, YouTube, TikTok and Instagram accounts
 - [ ] Analytics: logo tabs, time filters, real-only metrics, Metricool + StreamCharts, 3 charts, hints

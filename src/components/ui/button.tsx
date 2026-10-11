@@ -9,6 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        studio: "rounded-sm border border-foreground/60 bg-background text-foreground font-display text-lg uppercase tracking-normal hover:border-foreground hover:bg-accent",
+        choice: "rounded-sm border border-border bg-background text-muted-foreground tracking-normal font-display uppercase hover:border-foreground/50 hover:text-foreground",
         default: "border border-primary bg-[linear-gradient(180deg,var(--primary),color-mix(in_oklab,var(--primary)_82%,transparent))] text-primary-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.6)] hover:shadow-[0_0_28px_-8px_var(--primary)]",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
