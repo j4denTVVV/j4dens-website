@@ -29,6 +29,7 @@ export const STREAM_CATEGORIES = [
   "Challenge",
   "IRL",
   "Community",
+  "Collab",
   "Other",
 ] as const;
 export const STREAM_STATUSES = ["Idea", "Planned", "Ready", "Live Completed", "Cancelled"] as const;
