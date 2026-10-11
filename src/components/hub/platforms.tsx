@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import type { IconType } from "react-icons";
 import { SiTwitch, SiYoutube, SiTiktok, SiInstagram, SiFacebook, SiX } from "react-icons/si";
 
@@ -39,35 +38,4 @@ export function PlatformBadges({ list }: { list?: string[] | null }) {
   );
 }
 
-export function PlatformPicker({ value, onChange, single }: { value: string[]; onChange: (v: string[]) => void; single?: boolean }) {
-  const toggle = (p: string) => {
-    if (single) return onChange([p]);
-    onChange(value.includes(p) ? value.filter((x) => x !== p) : [...value, p]);
-  };
-  return (
-    <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-      {PLATFORMS.map((p) => {
-        const on = value.includes(p);
-        return (
-          <button
-            key={p}
-            type="button"
-            onClick={() => toggle(p)}
-            aria-pressed={on}
-            className={`relative flex flex-col items-center gap-2 rounded-xl border px-2 py-3 text-[0.62rem] font-semibold uppercase tracking-[0.18em] transition-all ${
-              on ? "border-foreground bg-foreground/5 text-foreground shadow-[0_0_22px_-8px_oklch(1_0_0/0.6)]" : "border-border text-muted-foreground hover:border-foreground/40"
-            }`}
-          >
-            {on ? (
-              <span className="absolute right-1.5 top-1.5 grid size-4 place-items-center rounded-full bg-foreground text-background">
-                <Check className="size-2.5" />
-              </span>
-            ) : null}
-            <PlatformLogo p={p} size={20} />
-            {p}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
+export { PlatformSelector as PlatformPicker } from "@/components/hub/visual-selectors";
