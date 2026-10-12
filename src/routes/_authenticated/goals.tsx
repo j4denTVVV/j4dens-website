@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Pencil, Plus } from "lucide-react";
+import { Check, Pencil, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { deleteRow, fetchAll } from "@/lib/api";
+import { deleteRow, fetchAll, updateRow } from "@/lib/api";
 import { daysUntil, formatNumber, shortDate } from "@/lib/hub";
 import { SubGoalsLadder } from "@/components/hub/SubGoals";
 import { ConfirmDelete, EmptyState, PageHeader } from "@/components/hub/common";
@@ -69,6 +69,50 @@ function RoadTo1K() {
   );
 }
 
+const gbp = (n: number) => new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(n);
+
+function ShoppingGoals() {
+  const qc = useQueryClient();
+  const { data: items = [] } = useQuery({ queryKey: ["setup_items"], queryFn: () => fetchAll("setup_items") });
+  const list = (items as any[]).filter((i) => i.section === "Want To Buy" || i.section === "Ordered");
+  const bought = (items as any[]).filter((i) => i.section === "Own").length;
+  const total = list.reduce((a, i) => a + (Number(i.price) || 0), 0);
+  const tick = useMutation({
+    mutationFn: (id: string) => updateRow("setup_items", id, { section: "Own" }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["setup_items"] }); toast.success("Bought — moved to your setup"); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  return (
+    <section className="card-primary p-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="eyebrow">EXTENDED GOALS · SHOPPING</p>
+          <h2 className="section-title mt-1 text-5xl">Setup Wishlist</h2>
+        </div>
+        <div className="text-right">
+          <p className="section-title text-3xl">{total ? gbp(total) : "No prices yet"}</p>
+          <p className="text-xs text-muted-foreground">{list.length} to buy · {bought} owned</p>
+        </div>
+      </div>
+      {list.length === 0 ? (
+        <p className="mt-6 text-sm text-muted-foreground">Nothing on the wishlist. Add items to "Want To Buy" in <Link to="/equipment" className="underline">Equipment</Link>.</p>
+      ) : (
+        <ul className="mt-6 grid gap-2 md:grid-cols-2">
+          {list.map((i) => (
+            <li key={i.id} className="card-minimal flex items-center gap-3 p-4">
+              <div className="flex-1">
+                <p className="font-semibold">{i.name}</p>
+                <p className="text-xs text-muted-foreground">{i.category ?? "Gear"} · {i.section}{i.price != null ? ` · ${gbp(Number(i.price))}` : ""}</p>
+              </div>
+              <Button size="sm" variant="outline" onClick={() => tick.mutate(i.id)}><Check className="size-4" /> BOUGHT</Button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 function GoalsPage() {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -85,6 +129,7 @@ function GoalsPage() {
       <PageHeader title="Goals" subtitle="What J4denTV is working towards." action={<Button onClick={() => setOpen(true)}><Plus /> ADD GOAL</Button>} />
       <RoadTo1K />
       <SubGoalsLadder />
+      <ShoppingGoals />
       <section>
         <h2 className="section-title mb-4 text-4xl">Other Goals</h2>
         {goals.length === 0 ? (

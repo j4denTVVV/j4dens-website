@@ -155,7 +155,7 @@ function AnalyticsPage() {
     if (thisWeek || lastWeek) out.push(`You streamed ${thisWeek} time${thisWeek === 1 ? "" : "s"} this week compared with ${lastWeek} last week.`);
     const tw = rows.filter((r) => r.platform === "Twitch" && r.avg_viewers != null).sort((a, b) => a.period_start.localeCompare(b.period_start));
     if (tw.length >= 2) {
-      const ch = pctChange(tw.at(-1)?.avg_viewers, tw.at(-2)?.avg_viewers);
+      const ch = pctChange(tw.at(-1)?.avg_viewers ?? null, tw.at(-2)?.avg_viewers ?? null);
       if (ch != null) out.push(`Twitch average viewers ${ch >= 0 ? "increased" : "dropped"} ${Math.abs(ch)}% since your last entry.`);
     }
     const m = new Date().toISOString().slice(0, 7);
