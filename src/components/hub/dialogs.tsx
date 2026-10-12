@@ -24,7 +24,7 @@ export function VideoDialog({ open, onOpenChange, existing }: Props) {
   const set = (k: string, v: unknown) => setForm((f: Row) => ({ ...f, [k]: v }));
   const save = useSave("youtube_videos", () => onOpenChange(false));
   return <Shell open={open} onOpenChange={onOpenChange} title={existing ? "Edit video" : "New video"} action={existing ? "Save video" : "Create video"} saving={save.isPending} onSave={() => {
-    if (!String(form.working_title ?? "").trim()) return toast.error("Add a working title");
+    if (!String(form.working_title ?? "").trim()) { toast.error("Add a working title"); return; }
     save.mutate({ id: existing?.id, values: { working_title: form.working_title, category: form.category, status: form.status, priority: form.priority, planned_record_date: form.planned_record_date || null, planned_upload_date: form.planned_upload_date || null, notes: form.notes || null, ...(existing ? { hook: form.hook || null, thumbnail_idea: form.thumbnail_idea || null } : {}) } });
   }}>
     <Field label="Title"><Input autoFocus value={form.working_title ?? ""} onChange={e => set("working_title", e.target.value)} placeholder="What's the video?" /></Field>
@@ -40,7 +40,7 @@ export function StreamDialog({ open, onOpenChange, existing, defaultPlatform = "
   const platforms = form.platforms?.length ? form.platforms : form.platform && form.platform !== "Multi-stream" ? [form.platform] : [];
   const save = useSave("streams", () => onOpenChange(false));
   return <Shell open={open} onOpenChange={onOpenChange} title={existing ? "Edit stream" : "Plan stream"} action={existing ? "Save stream" : "Create stream"} saving={save.isPending} onSave={() => {
-    if (!String(form.title ?? "").trim()) return toast.error("Add a stream title");
+    if (!String(form.title ?? "").trim()) { toast.error("Add a stream title"); return; }
     save.mutate({ id: existing?.id, values: { title: form.title, stream_date: form.stream_date || null, stream_time: form.stream_time || null, category: form.category, status: form.status, platform: platforms.length > 1 ? "Multi-stream" : platforms[0] ?? null, platforms, main_idea: form.main_idea || null, notes: form.notes || null, details: form.details ?? {} } });
   }}>
     <Field label="Stream title"><Input autoFocus value={form.title ?? ""} onChange={e => set("title", e.target.value)} placeholder="Friday stream" /></Field>
@@ -56,7 +56,7 @@ export function IdeaDialog({ open, onOpenChange, existing }: Props) {
   const [form, setForm] = useState<Row>(existing ?? { title: "", description: "", type: "YouTube", priority: "Normal", status: "Unused", tags: [] });
   const set = (k: string, v: unknown) => setForm((f: Row) => ({ ...f, [k]: v }));
   const save = useSave("ideas", () => onOpenChange(false));
-  const submit = () => { if (!String(form.title ?? "").trim()) return toast.error("Add an idea title"); save.mutate({ id: existing?.id, values: { title: form.title, description: form.description || null, type: form.type, priority: form.priority, status: form.status, tags: Array.isArray(form.tags) ? form.tags : String(form.tags ?? "").split(",").map(t => t.trim()).filter(Boolean) } }); };
+  const submit = () => { if (!String(form.title ?? "").trim()) { toast.error("Add an idea title"); return; } save.mutate({ id: existing?.id, values: { title: form.title, description: form.description || null, type: form.type, priority: form.priority, status: form.status, tags: Array.isArray(form.tags) ? form.tags : String(form.tags ?? "").split(",").map(t => t.trim()).filter(Boolean) } }); };
   return <Shell open={open} onOpenChange={onOpenChange} title={existing ? "Edit idea" : "New idea"} action="Save idea" saving={save.isPending} onSave={submit}>
     <Field label="Type idea"><Input autoFocus value={form.title ?? ""} onChange={e => set("title", e.target.value)} onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); if (!save.isPending) submit(); } }} placeholder="An idea worth saving…" /></Field>
     <ContentTypeSelector value={form.type} onChange={v => set("type", v)} options={IDEA_TYPES} />
@@ -68,7 +68,7 @@ export function GoalDialog({ open, onOpenChange, existing }: Props) {
   const set = (k: string, v: unknown) => setForm((f: Row) => ({ ...f, [k]: v }));
   const save = useSave("goals", () => onOpenChange(false));
   return <Shell open={open} onOpenChange={onOpenChange} title={existing ? "Edit goal" : "New goal"} action={existing ? "Save goal" : "Create goal"} saving={save.isPending} onSave={() => {
-    if (!String(form.name ?? "").trim()) return toast.error("Add a goal name");
+    if (!String(form.name ?? "").trim()) { toast.error("Add a goal name"); return; }
     const current = Number(form.current_value) || 0; const target = Number(form.target_value) || 1;
     save.mutate({ id: existing?.id, values: { name: form.name, category: form.category, current_value: current, target_value: target, deadline: form.deadline || null, completed: current >= target } });
   }}>
@@ -86,7 +86,7 @@ export function AnalyticsDialog({ open, onOpenChange, existing, defaultPlatform 
   const live = form.platform === "Twitch"; const youtube = form.platform === "YouTube";
   const metric = (k: string, label: string) => <Field key={k} label={label}><Input type="number" value={form[k] ?? ""} onChange={e => set(k, e.target.value)} /></Field>;
   return <Shell open={open} onOpenChange={onOpenChange} title={existing ? "Edit analytics" : "Analytics entry"} action="Save analytics" saving={save.isPending} onSave={() => {
-    if (!form.period_start) return toast.error("Pick a start date");
+    if (!form.period_start) { toast.error("Pick a start date"); return; }
     const values: Row = { period: form.period, platform: form.platform, period_start: form.period_start, period_end: form.period_end || null };
     for (const k of ["followers_start", "followers_end", "avg_viewers", "watch_time", "subs_gained"]) values[k] = form[k] === "" || form[k] == null ? null : Number(form[k]);
     for (const k of ["followers_gained", "views", "posts", "likes", "comments", "shares"]) values[k] = Number(form[k]) || 0;
