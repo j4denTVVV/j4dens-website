@@ -210,6 +210,16 @@ function AnalyticsPage() {
       </div>
 
       <motion.div key={`${tab}-${range}`} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+        {(() => {
+          const liveAcc = accounts.filter((a) => a.status === "connected" && (tab === "All" || a.platform === tab));
+          if (!liveAcc.length) return null;
+          const sum = (k: "followers" | "likes" | "posts") => { const v = liveAcc.map((a) => a[k]).filter((n): n is number => typeof n === "number"); return v.length ? v.reduce((x, y) => x + y, 0) : null; };
+          return <div className="grid gap-3 sm:grid-cols-3">
+            <Metric label="Live followers" value={sum("followers")} big />
+            <Metric label="Total likes" value={sum("likes")} />
+            <Metric label="Videos posted" value={sum("posts")} />
+          </div>;
+        })()}
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {top.map(([l, v], i) => <Metric key={l} label={l} value={v} big={i < 2} />)}
         </div>
