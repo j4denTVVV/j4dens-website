@@ -69,7 +69,7 @@ export function CalendarBoard({ items }: { items: CalendarItem[] }) {
     });
     const t =
       view === "week"
-        ? `${w[0].toLocaleDateString("en-GB", { day: "numeric", month: "short" })} – ${w[6].toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}`
+        ? `${w[0]!.toLocaleDateString("en-GB", { day: "numeric", month: "short" })} – ${w[6]!.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}`
         : first.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
     return { cells: list, title: t, week: w };
   }, [cursor, view]);
