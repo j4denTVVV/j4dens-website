@@ -62,20 +62,18 @@ const PLATFORM_METRICS: Record<Exclude<Tab, "All">, Array<[string, (r: Entry[]) 
 };
 
 function Metric({ label, value, big }: { label: string; value: number | null; big?: boolean }) {
+  if (value == null) return null;
   return (
     <div className={`${big ? "card-secondary" : "card-minimal"} lift p-5`}>
       <p className="eyebrow">{label}</p>
-      {value == null ? (
-        <p className="mt-3 text-[0.65rem] font-semibold tracking-[0.22em] text-muted-foreground">{NA}</p>
-      ) : (
-        <p className="section-title mt-2 text-4xl">{formatNumber(value)}</p>
-      )}
+      <p className="section-title mt-2 text-4xl">{formatNumber(value)}</p>
     </div>
   );
 }
 
 function ChartCard({ title, data, dataKey, kind }: { title: string; data: any[]; dataKey: string; kind: "area" | "bar" }) {
   const has = data.some((d) => typeof d[dataKey] === "number");
+  if (!has) return null;
   return (
     <div className="card-secondary p-5">
       <h3 className="section-title text-2xl">{title}</h3>
