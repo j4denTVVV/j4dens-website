@@ -11,5 +11,5 @@
 - [x] Settings: tabs (profile, accounts, integrations, preferences, appearance, security)
 - [ ] Calendar: month / week / agenda
 - [ ] Password page + HQ restyle polish
-- [ ] Browser-test every page
+- [x] Browser-test every page
 - [ ] Real platform data (Twitch/YouTube/etc.) — needs account connections approved by user
