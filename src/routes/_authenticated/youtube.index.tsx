@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
-import { fetchAll } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { ArrowRight, Plus } from "lucide-react";
+import { fetchAll, insertRow, updateRow } from "@/lib/api";
+import { Input } from "@/components/ui/input";
 import { chipClass, shortDate, VIDEO_STATUSES } from "@/lib/hub";
 import { EmptyState, PageHeader } from "@/components/hub/common";
 import { VideoDialog } from "@/components/hub/dialogs";
@@ -38,6 +40,20 @@ function YouTubePlanner() {
     queryFn: () => fetchAll("youtube_videos"),
   });
 
+  const qc = useQueryClient();
+  const [quick, setQuick] = useState("");
+  const quickAdd = useMutation({
+    mutationFn: (title: string) => insertRow("youtube_videos", { working_title: title, status: "Idea", category: "Other", priority: "Normal" }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["youtube_videos"] }); setQuick(""); toast.success("Video added to Idea"); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const advance = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) => updateRow("youtube_videos", id, { status }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["youtube_videos"] }),
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const nextStatus = (s: string) => VIDEO_STATUSES[VIDEO_STATUSES.indexOf(s as never) + 1];
+
   const open = (id: string) => navigate({ to: "/youtube/$videoId", params: { videoId: id } });
 
   const calendarItems: CalendarItem[] = videos
@@ -60,6 +76,10 @@ function YouTubePlanner() {
           </Button>
         }
       />
+      <form className="panel mb-6 flex items-center gap-2 p-3" onSubmit={(e) => { e.preventDefault(); if (quick.trim()) quickAdd.mutate(quick.trim()); }}>
+        <Input value={quick} onChange={(e) => setQuick(e.target.value)} placeholder="Quick add: type a video title and press Enter" className="border-0 bg-transparent" maxLength={150} />
+        <Button type="submit" variant="studio" size="sm" disabled={!quick.trim() || quickAdd.isPending}>Add <ArrowRight className="size-4" /></Button>
+      </form>
       {creating ? <VideoDialog open onOpenChange={() => setCreating(false)} /> : null}
 
       {!isLoading && videos.length === 0 ? (
@@ -87,18 +107,20 @@ function YouTubePlanner() {
                     </div>
                     <div className="space-y-3">
                       {group.map((v: any) => (
-                        <button
-                          key={v.id}
-                          type="button"
-                          onClick={() => open(v.id)}
-                          className="panel panel-hover w-full p-3 text-left"
-                        >
+                        <div key={v.id} className="panel panel-hover w-full p-3">
+                        <button type="button" onClick={() => open(v.id)} className="w-full text-left">
                           <p className="text-sm font-medium">{v.working_title}</p>
                           <p className="mt-1 text-xs text-muted-foreground">
                             {v.category} · upload {shortDate(v.planned_upload_date)}
                           </p>
                           <span className={`${chipClass(v.priority)} mt-2`}>{v.priority}</span>
                         </button>
+                        {nextStatus(v.status) ? (
+                          <button type="button" onClick={() => advance.mutate({ id: v.id, status: nextStatus(v.status)! })} className="mt-3 inline-flex items-center gap-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">
+                            Move to {nextStatus(v.status)} <ArrowRight className="size-3" />
+                          </button>
+                        ) : null}
+                        </div>
                       ))}
                       {group.length === 0 ? (
                         <p className="px-1 py-3 text-xs text-muted-foreground">Empty</p>
