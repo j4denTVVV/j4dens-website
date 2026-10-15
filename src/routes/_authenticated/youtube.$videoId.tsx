@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Plus, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Plus, X } from "lucide-react";
 import { deleteRow, fetchAll, fetchOne, insertRow, updateRow } from "@/lib/api";
 import { PRIORITIES, VIDEO_CATEGORIES, VIDEO_STATUSES } from "@/lib/hub";
 import { ConfirmDelete, Field, PageHeader } from "@/components/hub/common";
@@ -11,13 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CategorySelector, MoreOptions, PrioritySelector, StatusSelector } from "@/components/hub/visual-selectors";
 
 export const Route = createFileRoute("/_authenticated/youtube/$videoId")({
   head: () => ({
@@ -33,31 +27,6 @@ export const Route = createFileRoute("/_authenticated/youtube/$videoId")({
   }),
   component: VideoDetail,
 });
-
-function Picker({
-  value,
-  onChange,
-  options,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  options: readonly string[];
-}) {
-  return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((o) => (
-          <SelectItem key={o} value={o}>
-            {o}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
 
 function VideoDetail() {
   const { videoId } = Route.useParams();
@@ -181,6 +150,25 @@ function VideoDetail() {
         }
       />
 
+      <div className="panel mb-6 p-5">
+        <div className="flex flex-wrap items-center gap-2">
+          {VIDEO_STATUSES.map((st, i) => {
+            const cur = VIDEO_STATUSES.indexOf(form.status);
+            return (
+              <button key={st} type="button" onClick={() => { set("status", st); save.mutate({ status: st }); }}
+                className={`rounded-sm border px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition ${i === cur ? "border-foreground bg-secondary text-foreground" : i < cur ? "border-border text-foreground/70" : "border-border text-muted-foreground hover:text-foreground"}`}>
+                {i < cur ? "✓ " : ""}{st}
+              </button>
+            );
+          })}
+          {VIDEO_STATUSES.indexOf(form.status) < VIDEO_STATUSES.length - 1 ? (
+            <Button variant="studio" size="sm" className="ml-auto" onClick={() => { const nx = VIDEO_STATUSES[VIDEO_STATUSES.indexOf(form.status) + 1]!; set("status", nx); save.mutate({ status: nx }); }}>
+              Move to {VIDEO_STATUSES[VIDEO_STATUSES.indexOf(form.status) + 1]} <ArrowRight className="size-4" />
+            </Button>
+          ) : null}
+        </div>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="panel space-y-4 p-6 lg:col-span-2">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -221,27 +209,9 @@ function VideoDetail() {
         </div>
 
         <div className="panel space-y-4 p-6">
-          <Field label="Category">
-            <Picker
-              value={form.category}
-              onChange={(v) => set("category", v)}
-              options={VIDEO_CATEGORIES}
-            />
-          </Field>
-          <Field label="Status">
-            <Picker
-              value={form.status}
-              onChange={(v) => set("status", v)}
-              options={VIDEO_STATUSES}
-            />
-          </Field>
-          <Field label="Priority">
-            <Picker
-              value={form.priority}
-              onChange={(v) => set("priority", v)}
-              options={PRIORITIES}
-            />
-          </Field>
+          <CategorySelector value={form.category} onChange={(v) => set("category", v)} options={VIDEO_CATEGORIES} label="Type" />
+          <StatusSelector value={form.status} onChange={(v) => set("status", v)} options={VIDEO_STATUSES} />
+          <PrioritySelector value={form.priority} onChange={(v) => set("priority", v)} options={PRIORITIES} />
           <div className="grid grid-cols-2 gap-4">
             <Field label="Planned recording">
               <Input
@@ -382,6 +352,7 @@ function VideoDetail() {
 
         <div className="panel p-6">
           <h2 className="section-title mb-4 text-lg">Video performance</h2>
+          <MoreOptions label="Log performance numbers" defaultOpen={form.status === "Uploaded"}>
           <div className="grid grid-cols-2 gap-4">
             <Field label="Views after 24h">
               <Input
@@ -426,6 +397,7 @@ function VideoDetail() {
               />
             </Field>
           </div>
+          </MoreOptions>
         </div>
       </div>
 
